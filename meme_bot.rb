@@ -1,5 +1,7 @@
 require 'scamp'
 require 'yuno'
+require 'net/http'
+require 'json'
 
 scamp = Scamp.new(:api_key => "YOUR API KEY", :subdomain => "your subdomain", :verbose => true)
 
@@ -38,6 +40,43 @@ scamp.behaviour do
 
   match "not bad" do
     say "http://ragefac.es/faces/f4c6f874966279c091de3056ac0f1a33.png"
+  end
+  
+  # useful stuff
+  
+  match /^geminfo (?<gemname>.+)/ do
+    say "hang on, looking for #{gemname} info..."
+    begin
+      response = Net::HTTP.get(URI.parse("http://rubygems.org/api/v1/versions/#{gemname}.json"))
+      gem_info = JSON.parse(response).to_a
+      recent = gem_info.first
+      say "The most recent version is #{recent['number']}, released #{recent['built_at']}. Gem summary: #{recent['summary']}"
+      say "gem '#{gemname}', '~> #{recent['number']}'"
+    rescue
+      say "Oh crap, some error. Try http://rubygems.org/search?query=#{gemname}"
+    end
+  end
+  
+  match /^last (?<someone>.+)'s tweet/ do
+    begin
+      response = Net::HTTP.get(URI.parse("http://api.twitter.com/1/users/show.json?screen_name=#{someone}"))
+      json = JSON.parse(response)
+      say "http://twitter.com/#!/#{someone}/status/#{json['status']['id_str']}"
+    rescue
+      say "pfffch pfffch"
+    end
+  end
+  
+  match /^weather!$/ do
+    begin
+      response = Net::HTTP.get(URI.parse("http://weather.yahooapis.com/forecastjson?w=44418&u=c")) #London
+      json = JSON.parse(response)
+      say "Now #{json["condition"]["temperature"]} C, #{json["condition"]["text"]}. Wind #{json["wind"]["speed"]}km/h #{json["wind"]["direction"]}"
+      tomorrow = json["forecast"].find{|x| x["day"] = "Tomorrow"}
+      say "Tomorrow #{tomorrow["condition"]}, temperature #{tomorrow["low_temperature"]} - #{tomorrow["high_temperature"]} C"
+    rescue
+      say "no weather :("
+    end
   end
 end
 
