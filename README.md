@@ -12,8 +12,8 @@ Commands
 ========
 
 * weather! - displays weather in London
-* last <twitter_name> tweet
-* geminfo <gemname> - useful info from rubygems
-* Y U NO <do something> - generates and pastes Y U NO meme poster
+* last __twitter_name__ tweet
+* geminfo __gemname__ - useful info from rubygems
+* Y U NO __do_something__ - generates and pastes Y U NO meme poster
 
 It also matches phrases like LOL, not bad, SUCCESS, FAILURE etc..
