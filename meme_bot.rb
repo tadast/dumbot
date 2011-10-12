@@ -41,9 +41,17 @@ scamp.behaviour do
   match "not bad" do
     say "http://ragefac.es/faces/f4c6f874966279c091de3056ac0f1a33.png"
   end
-  
+
+  match "facepalm" do
+    say "http://knowyourmeme.com/system/icons/554/original/facepalm.jpg"
+  end
+
+  match /^[f]+[u]+$/ do
+    say "http://ragefac.es/faces/medium_b801183d49d9a7a5491df449d78bceb3.png"
+  end
+
   # useful stuff
-  
+
   match /^geminfo (?<gemname>.+)/ do
     say "hang on, looking for #{gemname} info..."
     begin
@@ -56,7 +64,7 @@ scamp.behaviour do
       say "Oh crap, some error. Try http://rubygems.org/search?query=#{gemname}"
     end
   end
-  
+
   match /^last (?<someone>.+)'s tweet/ do
     begin
       response = Net::HTTP.get(URI.parse("http://api.twitter.com/1/users/show.json?screen_name=#{someone}"))
@@ -66,7 +74,7 @@ scamp.behaviour do
       say "pfffch pfffch"
     end
   end
-  
+
   match /^weather!$/ do
     begin
       response = Net::HTTP.get(URI.parse("http://weather.yahooapis.com/forecastjson?w=44418&u=c")) #London
