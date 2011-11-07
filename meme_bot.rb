@@ -62,7 +62,7 @@ scamp.behaviour do
 
   match /(.)*kids(.)*/ do
     say "http://s3.amazonaws.com/ragefaces/a0bb256993d98fb2d037a0eac5a6b59c.png"
-    say "who said kids?"
+    say "who said children?"
   end
 
   match /(.)*do next?(.)*/ do
@@ -98,9 +98,21 @@ scamp.behaviour do
     say images.shuffle.first
   end
 
-  # only if you run it locally
   match /my ip?/ do
     say "#{`wget -qO- icanhazip.com`}"
+  end
+
+  match /humble/ do
+    say "http://s3.amazonaws.com/ragefaces/b50a224ee8948d6fd1987d3172f01017.png"
+  end
+
+  match /Z?OMG/ do
+    say "http://s3.amazonaws.com/ragefaces/b34804725fcfa64106b786f37c2f32fe.png"
+  end
+
+  match /friday|Friday/ do
+    say "http://s3.amazonaws.com/ragefaces/3aabae7fcc91e1646ce10ac03a4cc93f.png"
+    say "say whut, friiiiday?"
   end
 
   # useful stuff
