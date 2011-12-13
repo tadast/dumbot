@@ -6,7 +6,7 @@ require 'cgi'
 require './bot_config.rb'
 
 @config = BotConfig.new
-scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => true)
+scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => false)
 
 def yuno
   @yuno ||= Yuno.new(:yuno)
@@ -21,7 +21,7 @@ scamp.behaviour do
     url = "http://ajax.googleapis.com/ajax/services/search/images?rsz=large&start=0&v=1.0&q=#{CGI.escape(search)}"
     http = EventMachine::HttpRequest.new(url).get
     http.errback { say "Couldn't get #{url}: #{http.response_status.inspect}" }
-    http.callback {
+    http.callback do
       if http.response_header.status == 200
         results = Yajl::Parser.parse(http.response)
         if results['responseData']['results'].size > 0
@@ -33,21 +33,27 @@ scamp.behaviour do
         # logger.warn "Couldn't get #{url}"
         say "Couldn't get #{url}"
       end
-    }
+    end
   end
   
   match /^geminfo (?<gemname>.+)/ do
-    begin
-      response = Net::HTTP.get(URI.parse("http://rubygems.org/api/v1/versions/#{gemname}.json"))
-      gem_info = JSON.parse(response).to_a
-      recent = gem_info.first
-      say "The most recent version is #{recent['number']}, released #{recent['built_at']}. Gem summary: #{recent['summary']}"
-      say "gem '#{gemname}', '~> #{recent['number']}'"
-    rescue
-      say "Oh crap, some error. Try http://rubygems.org/search?query=#{gemname}"
+    url = "http://rubygems.org/api/v1/versions/#{CGI.escape(gemname)}.json"
+    http = EventMachine::HttpRequest.new(url).get
+    http.errback { say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}" }
+    
+    http.callback do
+      if http.response_header.status == 200
+        recent = Yajl::Parser.parse(http.response).to_a.first
+        msg = "The most recent version is #{recent['number']}, released #{recent['built_at']}. Gem summary: #{recent['summary']}"
+        msg << "\ngem '#{gemname}', '~> #{recent['number']}'"
+        say msg
+      else
+        say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}"
+      end
     end
   end
 
+  # synchronous and locking!
   match /^Y U NO(?<action>.+)$/ do
     if action
       link = yuno.generate "Y U NO", action
