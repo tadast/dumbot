@@ -102,7 +102,7 @@ scamp.behaviour do
   end
 
   # TODO make the location easily configurable or pass it as a parameter
-  match /^weather!$/ do
+  match /^weather!?$/ do
     begin
       response = Net::HTTP.get(URI.parse("http://weather.yahooapis.com/forecastjson?w=44418&u=c")) #London
       json = JSON.parse(response)
@@ -116,6 +116,10 @@ scamp.behaviour do
   
   match /dumbot ip/ do
     say "#{`wget -qO- icanhazip.com`}"
+  end
+  
+  match /^(north korea|cccp|soviet russia)$/i do
+    say 'censorship stick!\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|'
   end
   
   #unuseful noisy matchers
@@ -209,7 +213,7 @@ scamp.behaviour do
     say "http://s3.amazonaws.com/ragefaces/b34804725fcfa64106b786f37c2f32fe.png"
   end
 
-  match /friday|Friday/ do
+  match /friday/i do
     say "http://s3.amazonaws.com/ragefaces/3aabae7fcc91e1646ce10ac03a4cc93f.png"
     say "say whut, friiiiday?"
   end
