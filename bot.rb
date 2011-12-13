@@ -2,6 +2,7 @@ require 'scamp'
 require 'yuno'
 require 'net/http'
 require 'json'
+require 'cgi'
 require './bot_config.rb'
 
 @config = BotConfig.new
@@ -15,6 +16,25 @@ scamp.behaviour do
   # match /help/ do
   #   puts "#{scamp.command_list.map(&:to_s).join("\n-")}"
   # end
+  
+  match /^artme (?<search>\w+)/ do
+    url = "http://ajax.googleapis.com/ajax/services/search/images?rsz=large&start=0&v=1.0&q=#{CGI.escape(search)}"
+    http = EventMachine::HttpRequest.new(url).get
+    http.errback { say "Couldn't get #{url}: #{http.response_status.inspect}" }
+    http.callback {
+      if http.response_header.status == 200
+        results = Yajl::Parser.parse(http.response)
+        if results['responseData']['results'].size > 0
+          say results['responseData']['results'][0]['url']
+        else
+          say "No images matched #{search}"
+        end
+      else
+        # logger.warn "Couldn't get #{url}"
+        say "Couldn't get #{url}"
+      end
+    }
+  end
   
   match /^geminfo (?<gemname>.+)/ do
     begin
