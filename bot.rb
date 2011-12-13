@@ -36,19 +36,42 @@ scamp.behaviour do
     end
   end
   
-  match /^geminfo (?<gemname>.+)/ do
-    url = "http://rubygems.org/api/v1/versions/#{CGI.escape(gemname)}.json"
-    http = EventMachine::HttpRequest.new(url).get
-    http.errback { say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}" }
+  # > geminfo rails
+  # > geminfo rails more
+  match /^geminfo (?<gemname>\w+) ?(?<more>\w+)?/ do
+    versions_url = "http://rubygems.org/api/v1/versions/#{CGI.escape(gemname)}.json"
+    versions_http = EventMachine::HttpRequest.new(versions_url).get
+    versions_http.errback { say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}" }
     
-    http.callback do
-      if http.response_header.status == 200
-        recent = Yajl::Parser.parse(http.response).to_a.first
+    versions_http.callback do
+      if versions_http.response_header.status == 200
+        result = Yajl::Parser.parse(versions_http.response)
+        recent = result.to_a.first
         msg = "The most recent version is #{recent['number']}, released #{recent['built_at']}. Gem summary: #{recent['summary']}"
         msg << "\ngem '#{gemname}', '~> #{recent['number']}'"
         say msg
       else
         say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}"
+      end
+    end
+    
+    if more && !more.empty?
+      info_url = "http://rubygems.org/api/v1/gems/#{CGI.escape(gemname)}.json"
+      info_http = EventMachine::HttpRequest.new(info_url).get
+      info_http.errback {}
+    
+      info_http.callback do
+        if info_http.response_header.status == 200
+          result = Yajl::Parser.parse(info_http.response)
+          msg = []
+          msg << "downloads: #{result['downloads']}" if result['downloads']
+          msg << "project:   #{result['project_uri']}" if result['project_uri']
+          msg << "homepage:  #{result['homepage_uri']}" if result['homepage_uri']
+          msg << "source:    #{result['source_code_uri']}" if result['source_code_uri']
+          say msg.join("\n")
+        else
+          say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}"
+        end
       end
     end
   end
@@ -78,6 +101,7 @@ scamp.behaviour do
     end
   end
 
+  # TODO make the location easily configurable or pass it as a parameter
   match /^weather!$/ do
     begin
       response = Net::HTTP.get(URI.parse("http://weather.yahooapis.com/forecastjson?w=44418&u=c")) #London
