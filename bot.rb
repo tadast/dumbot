@@ -62,12 +62,19 @@ scamp.behaviour do
   end
 
   match /^last (?<someone>.+)'s tweet/ do
-    begin
-      response = Net::HTTP.get(URI.parse("http://api.twitter.com/1/users/show.json?screen_name=#{someone}"))
-      json = JSON.parse(response)
-      say "http://twitter.com/#!/#{someone}/status/#{json['status']['id_str']}"
-    rescue e
-      say "Error #{e}"
+    url = "http://api.twitter.com/1/users/show.json?screen_name=#{CGI.escape(someone)}"
+    http = EventMachine::HttpRequest.new(url).get
+    http.callback do
+      if http.response_header.status == 200
+        results = Yajl::Parser.parse(http.response)
+        if results['status']['id_str'].size > 0
+          say "http://twitter.com/#!/#{CGI.escape(someone)}/status/#{results['status']['id_str']}"
+        else
+          say "Didn't find correct info in the twitter response"
+        end
+      else
+        say "Couldn't get the tweet"
+      end
     end
   end
 
