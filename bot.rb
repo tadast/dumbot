@@ -2,14 +2,67 @@ require 'scamp'
 require 'yuno'
 require 'net/http'
 require 'json'
+require './bot_config.rb'
 
-scamp = Scamp.new(:api_key => "YOUR API KEY", :subdomain => "your subdomain", :verbose => true)
+@config = BotConfig.new
+scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => true)
 
 def yuno
   @yuno ||= Yuno.new(:yuno)
 end
 
 scamp.behaviour do
+  # match /help/ do
+  #   puts "#{scamp.command_list.map(&:to_s).join("\n-")}"
+  # end
+  
+  match /^geminfo (?<gemname>.+)/ do
+    begin
+      response = Net::HTTP.get(URI.parse("http://rubygems.org/api/v1/versions/#{gemname}.json"))
+      gem_info = JSON.parse(response).to_a
+      recent = gem_info.first
+      say "The most recent version is #{recent['number']}, released #{recent['built_at']}. Gem summary: #{recent['summary']}"
+      say "gem '#{gemname}', '~> #{recent['number']}'"
+    rescue
+      say "Oh crap, some error. Try http://rubygems.org/search?query=#{gemname}"
+    end
+  end
+
+  match /^Y U NO(?<action>.+)$/ do
+    if action
+      link = yuno.generate "Y U NO", action
+      say link
+    end
+  end
+
+  match /^last (?<someone>.+)'s tweet/ do
+    begin
+      response = Net::HTTP.get(URI.parse("http://api.twitter.com/1/users/show.json?screen_name=#{someone}"))
+      json = JSON.parse(response)
+      say "http://twitter.com/#!/#{someone}/status/#{json['status']['id_str']}"
+    rescue e
+      say "Error #{e}"
+    end
+  end
+
+  match /^weather!$/ do
+    begin
+      response = Net::HTTP.get(URI.parse("http://weather.yahooapis.com/forecastjson?w=44418&u=c")) #London
+      json = JSON.parse(response)
+      say "Now #{json["condition"]["temperature"]} C, #{json["condition"]["text"]}. Wind #{json["wind"]["speed"]}km/h #{json["wind"]["direction"]}"
+      tomorrow = json["forecast"].find{|x| x["day"] = "Tomorrow"}
+      say "Tomorrow #{tomorrow["condition"]}, temperature #{tomorrow["low_temperature"]} - #{tomorrow["high_temperature"]} C"
+    rescue
+      say "no weather :("
+    end
+  end
+  
+  match /dumbot ip/ do
+    say "#{`wget -qO- icanhazip.com`}"
+  end
+  
+  #unuseful noisy matchers
+  
   # matches Jenkins notifier success message https://github.com/thickpaddy/jenkins_campfire_plugin
   match /(.)*SUCCESS(.)*/ do
     # say "http://ragefac.es/faces/7c5b930e2a57df597acf02f4bea0e252.png"
@@ -20,13 +73,6 @@ scamp.behaviour do
   match /(.)*FAILURE(.)*/ do
     # say "http://ragefac.es/faces/b6e647d23bf1c62c0cd8f7fe98a42823.png"
     play "drama"
-  end
-
-  match /^Y U NO(?<action>.+)$/ do
-    if action
-      link = yuno.generate "Y U NO", action
-      say link
-    end
   end
 
   match "LOL" do
@@ -98,10 +144,6 @@ scamp.behaviour do
     say images.shuffle.first
   end
 
-  match /my ip?/ do
-    say "#{`wget -qO- icanhazip.com`}"
-  end
-
   match /humble/ do
     say "http://s3.amazonaws.com/ragefaces/b50a224ee8948d6fd1987d3172f01017.png"
   end
@@ -114,43 +156,7 @@ scamp.behaviour do
     say "http://s3.amazonaws.com/ragefaces/3aabae7fcc91e1646ce10ac03a4cc93f.png"
     say "say whut, friiiiday?"
   end
-
-  # useful stuff
-
-  match /^geminfo (?<gemname>.+)/ do
-    begin
-      response = Net::HTTP.get(URI.parse("http://rubygems.org/api/v1/versions/#{gemname}.json"))
-      gem_info = JSON.parse(response).to_a
-      recent = gem_info.first
-      say "The most recent version is #{recent['number']}, released #{recent['built_at']}. Gem summary: #{recent['summary']}"
-      say "gem '#{gemname}', '~> #{recent['number']}'"
-    rescue
-      say "Oh crap, some error. Try http://rubygems.org/search?query=#{gemname}"
-    end
-  end
-
-  match /^last (?<someone>.+)'s tweet/ do
-    begin
-      response = Net::HTTP.get(URI.parse("http://api.twitter.com/1/users/show.json?screen_name=#{someone}"))
-      json = JSON.parse(response)
-      say "http://twitter.com/#!/#{someone}/status/#{json['status']['id_str']}"
-    rescue e
-      say "Error #{e}"
-    end
-  end
-
-  match /^weather!$/ do
-    begin
-      response = Net::HTTP.get(URI.parse("http://weather.yahooapis.com/forecastjson?w=44418&u=c")) #London
-      json = JSON.parse(response)
-      say "Now #{json["condition"]["temperature"]} C, #{json["condition"]["text"]}. Wind #{json["wind"]["speed"]}km/h #{json["wind"]["direction"]}"
-      tomorrow = json["forecast"].find{|x| x["day"] = "Tomorrow"}
-      say "Tomorrow #{tomorrow["condition"]}, temperature #{tomorrow["low_temperature"]} - #{tomorrow["high_temperature"]} C"
-    rescue
-      say "no weather :("
-    end
-  end
 end
 
 # Connect and join some rooms
-scamp.connect!(["your room name"])
+scamp.connect!(@config['room_names'])
