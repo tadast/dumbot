@@ -3,7 +3,7 @@ require 'yuno'
 require 'net/http'
 require 'json'
 require 'cgi'
-require './bot_config.rb'
+require_relative 'bot_config.rb'
 
 @config = BotConfig.new
 scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => false)
