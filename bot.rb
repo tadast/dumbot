@@ -215,9 +215,9 @@ scamp.behaviour do
     say "http://s3.amazonaws.com/ragefaces/b34804725fcfa64106b786f37c2f32fe.png"
   end
 
-  match /friday/i do
-    say "http://s3.amazonaws.com/ragefaces/3aabae7fcc91e1646ce10ac03a4cc93f.png"
-    say "say whut, friiiiday?"
+  match /friday(.)?$/i do
+    images = ["http://i.imgur.com/1sZ9T.jpg", "http://s3.amazonaws.com/ragefaces/3aabae7fcc91e1646ce10ac03a4cc93f.png"]
+    say images.shuffle.first
   end
 
   match /^add task (?<task>.+)$/ do
