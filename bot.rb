@@ -6,16 +6,12 @@ require 'cgi'
 require_relative 'bot_config.rb'
 require_relative 'tasker.rb'
 
-UrgentTask = Struct.new(:id, :name, :owner)
-
 @config = BotConfig.new
 scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => false)
 
 def yuno
   @yuno ||= Yuno.new(:yuno)
 end
-
-$tasks = []
 
 scamp.behaviour do
 
