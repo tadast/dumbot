@@ -4,6 +4,9 @@ require 'net/http'
 require 'json'
 require 'cgi'
 require_relative 'bot_config.rb'
+require_relative 'tasker.rb'
+
+UrgentTask = Struct.new(:id, :name, :owner)
 
 @config = BotConfig.new
 scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => false)
@@ -12,11 +15,14 @@ def yuno
   @yuno ||= Yuno.new(:yuno)
 end
 
+$tasks = []
+
 scamp.behaviour do
+
   # match /help/ do
   #   puts "#{scamp.command_list.map(&:to_s).join("\n-")}"
   # end
-  
+
   match /^artme (?<search>\w+)/ do
     url = "http://ajax.googleapis.com/ajax/services/search/images?rsz=large&start=0&v=1.0&q=#{CGI.escape(search)}"
     http = EventMachine::HttpRequest.new(url).get
@@ -35,14 +41,14 @@ scamp.behaviour do
       end
     end
   end
-  
+
   # > geminfo rails
   # > geminfo rails more
   match /^geminfo (?<gemname>\w+) ?(?<more>\w+)?/ do
     versions_url = "http://rubygems.org/api/v1/versions/#{CGI.escape(gemname)}.json"
     versions_http = EventMachine::HttpRequest.new(versions_url).get
     versions_http.errback { say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}" }
-    
+
     versions_http.callback do
       if versions_http.response_header.status == 200
         result = Yajl::Parser.parse(versions_http.response)
@@ -54,12 +60,12 @@ scamp.behaviour do
         say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}"
       end
     end
-    
+
     if more && !more.empty?
       info_url = "http://rubygems.org/api/v1/gems/#{CGI.escape(gemname)}.json"
       info_http = EventMachine::HttpRequest.new(info_url).get
       info_http.errback {}
-    
+
       info_http.callback do
         if info_http.response_header.status == 200
           result = Yajl::Parser.parse(info_http.response)
@@ -113,17 +119,17 @@ scamp.behaviour do
       say "no weather :("
     end
   end
-  
+
   match /dumbot ip/ do
     say "#{`wget -qO- icanhazip.com`}"
   end
-  
+
   match /^(north korea|cccp|soviet russia)$/i do
     say "censorship stick!\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|"
   end
-  
+
   #unuseful noisy matchers
-  
+
   # matches Jenkins notifier success message https://github.com/thickpaddy/jenkins_campfire_plugin
   match /(.)*SUCCESS(.)*/ do
     # say "http://ragefac.es/faces/7c5b930e2a57df597acf02f4bea0e252.png"
@@ -216,6 +222,29 @@ scamp.behaviour do
   match /friday/i do
     say "http://s3.amazonaws.com/ragefaces/3aabae7fcc91e1646ce10ac03a4cc93f.png"
     say "say whut, friiiiday?"
+  end
+
+  match /^task push(?<task>.+)$/ do
+    Tasker.instance.push(task)
+    say Tasker.instance.list
+  end
+
+  match /^task( list)?$/ do
+    say Tasker.instance.list
+  end
+
+  match /^task claim (?<id>\d+)$/ do
+    say Tasker.instance.claim(id, user)
+    say Tasker.instance.list
+  end
+
+  match /^task done (?<id>\d+)$/ do
+    say Tasker.instance.done(id, user)
+    say Tasker.instance.list
+  end
+
+  match /^task help$/ do
+    say Tasker.instance.help
   end
 end
 
