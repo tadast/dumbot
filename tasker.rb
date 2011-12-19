@@ -5,11 +5,16 @@ class Tasker
   Task = Struct.new(:id, :description, :owner)
 
   def initialize
+    @id = 0
     @tasks = []
   end
 
+  def next_id
+    @id += 1
+  end
+
   def push(text)
-    @tasks << Task.new(@tasks.size + 1, text, nil)
+    @tasks << Task.new(next_id, text, nil)
   end
 
   def list
