@@ -22,3 +22,9 @@ Commands
 * north korea - adds a 'censorship stick' to scroll up whatever you had on the screen
 
 It also matches phrases like __LOL, OMG, ZOMG, facepalm, fffffffuuuuuuuuuuuu, tea break?, not bad, SUCCESS, FAILURE, friday, like a boss, whew, ship it!, humble__ etc..
+
+* task - List current pending tasks
+* task push __work_to_do__ - Adds a task to the current list pending tasks
+* task claim __id__ - Claim a task for yourself
+* task done __id__ - Mark task as completed
+* task help - Print something similar to the above
