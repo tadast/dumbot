@@ -220,28 +220,46 @@ scamp.behaviour do
     say "say whut, friiiiday?"
   end
 
-  match /^task push(?<task>.+)$/ do
+  match /^add task (?<task>.+)$/ do
     Tasker.instance.push(task)
-    say Tasker.instance.list
+    say Tasker.instance.all_tasks
   end
 
-  match /^task( list)?$/ do
-    say Tasker.instance.list
+  match /^(all )?tasks?$/ do
+    say Tasker.instance.all_tasks
   end
 
-  match /^task claim (?<id>\d+)$/ do
-    say Tasker.instance.claim(id, user)
-    say Tasker.instance.list
+  match /^my tasks?$/ do
+    say Tasker.instance.my_tasks(user)
   end
 
-  match /^task done (?<id>\d+)$/ do
-    say Tasker.instance.done(id, user)
-    say Tasker.instance.list
+  match /^(?<id>\d+) is mine$/ do
+    Tasker.instance.claim(id, user)
+    say Tasker.instance.all_tasks
+  end
+
+  match /^(?<id>\d+) is done$/ do
+    say Tasker.instance.done(id, user) + "\n" + Tasker.instance.all_tasks
+  end
+
+  match /^(?<id>\d+) is too hard$/ do
+    say Tasker.instance.give_up(id)
+  end
+
+
+  match /^(?<username>.+) do (?<id>\d+)$/ do
+    say Tasker.instance.assign(id, username) + Tasker.instance.all_tasks
+  end
+
+  match /^import tasks? (?<lines>.+)/m do
+    Tasker.instance.import(lines)
+    say Tasker.instance.all_tasks
   end
 
   match /^task help$/ do
     say Tasker.instance.help
   end
+
 end
 
 # Connect and join some rooms
