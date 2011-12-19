@@ -248,7 +248,7 @@ scamp.behaviour do
 
 
   match /^(?<username>.+) do (?<id>\d+)$/ do
-    say Tasker.instance.assign(id, username) + Tasker.instance.all_tasks
+    say Tasker.instance.assign(id, username) + "\n" + Tasker.instance.all_tasks
   end
 
   match /^import tasks? (?<lines>.+)/m do
