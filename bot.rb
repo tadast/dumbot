@@ -239,7 +239,7 @@ scamp.behaviour do
   end
 
   match /^(?<id>\d+) is done$/ do
-    say Tasker.instance.done(id, user) + "\n" + Tasker.instance.all_tasks
+    say Tasker.instance.done(id, user)
   end
 
   match /^(?<id>\d+) is too hard$/ do
