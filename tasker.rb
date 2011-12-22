@@ -87,6 +87,7 @@ class Tasker
   def done(id, user)
     task(id) do |task|
       @tasks.delete(task)
+      "Well played #{user}, you completed task #{task.id}."
     end
   end
 
