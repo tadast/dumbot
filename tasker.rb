@@ -87,7 +87,6 @@ class Tasker
   def done(id, user)
     task(id) do |task|
       @tasks.delete(task)
-      "like a boss"
     end
   end
 
