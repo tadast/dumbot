@@ -28,7 +28,7 @@ scamp.behaviour do
         results = Yajl::Parser.parse(http.response)
         result_size = results['responseData']['results'].size
         if result_size > 0
-          say results['responseData']['results'][(result_size * rand).to_i]['url']
+          say results['responseData']['results'][(result_size * rand).to_i]['url'].gsub('%25', '%')
         else
           say "No images matched #{search}"
         end
