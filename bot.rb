@@ -26,8 +26,9 @@ scamp.behaviour do
     http.callback do
       if http.response_header.status == 200
         results = Yajl::Parser.parse(http.response)
-        if results['responseData']['results'].size > 0
-          say results['responseData']['results'][0]['url']
+        result_size = results['responseData']['results'].size
+        if result_size > 0
+          say results['responseData']['results'][(result_size * rand).to_i]['url']
         else
           say "No images matched #{search}"
         end
