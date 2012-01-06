@@ -19,7 +19,7 @@ scamp.behaviour do
   #   puts "#{scamp.command_list.map(&:to_s).join("\n-")}"
   # end
 
-  match /^artme (?<search>\w+)/ do
+  match /^artme (?<search>.+)/ do
     url = "http://ajax.googleapis.com/ajax/services/search/images?rsz=large&start=0&v=1.0&q=#{CGI.escape(search)}"
     http = EventMachine::HttpRequest.new(url).get
     http.errback { say "Couldn't get #{url}: #{http.response_status.inspect}" }
