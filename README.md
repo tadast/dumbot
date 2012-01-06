@@ -26,10 +26,14 @@ Essentials
 
 Tasks
 -----
-* task - List current pending tasks
-* task push __work_to_do__ - Adds a task to the current list pending tasks
-* task claim __id__ - Claim a task for yourself
-* task done __id__ - Mark task as completed
+* tasks - List current pending tasks
+* my tasks - List current pending tasks assigned to me
+* __id__ is mine - Claim a task for yourself
+* __id__ is done - Mark task as completed
+* __id__ is too hard - Unclaim task. Bot will LOL
+* add task __work_to_do__ - Adds a task to the current list pending tasks
+* __username__ do __id__ - assigns the task to the user
+* import tasks __list of numbered tasks__ - assigns the task to the user
 * task help - Print something similar to the above
 
 Motivational

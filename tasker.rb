@@ -76,7 +76,7 @@ class Tasker
   def give_up(id)
     task(id) do |task|
       task.owner = nil
-      "LOL"
+      "LOL, man-up dude!"
     end
   end
 
