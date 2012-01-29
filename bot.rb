@@ -15,10 +15,6 @@ end
 
 scamp.behaviour do
 
-  match /^(dumbot|dog)\??$/i do
-    say "http://i3.kym-cdn.com/entries/icons/original/000/007/447/hello-yes-this-is-dog.png"
-  end
-
   match /^(dumbot )?help/i do
     say "#{scamp.command_list.map(&:to_s).join("\n-")}"
   end
@@ -112,6 +108,10 @@ scamp.behaviour do
     say "censorship stick!\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|"
   end
 
+  match /^dumbot, pick one(:)?(?<options>.+)$/i do
+    say options.to_s.split.sample
+  end
+
   #unuseful noisy matchers
 
   # matches Jenkins notifier success message https://github.com/thickpaddy/jenkins_campfire_plugin
@@ -124,6 +124,10 @@ scamp.behaviour do
   match /(.)*FAILURE(.)*/ do
     # say "http://ragefac.es/faces/b6e647d23bf1c62c0cd8f7fe98a42823.png"
     play "drama"
+  end
+
+  match /^(dumbot|dog)\??$/i do
+    say "http://i3.kym-cdn.com/entries/icons/original/000/007/447/hello-yes-this-is-dog.png"
   end
 
   match "LOL" do
