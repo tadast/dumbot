@@ -16,7 +16,14 @@ end
 scamp.behaviour do
 
   match /^(dumbot )?help/i do
-    say "#{scamp.command_list.map(&:to_s).join("\n-")}"
+    max_command_length = command_list.map{|cl| cl.first.to_s }.max_by(&:size).size
+    format_string = "%#{max_command_length + 1}s"
+    formatted_commands = command_list.map{|action, conds| "#{sprintf(format_string, action)} | #{conds.size == 0 ? '' : conds.inspect}"}
+    say <<-EOS
+#{sprintf("%-#{max_command_length + 1}s", "Command match")} | Conditions
+--------------------------------------------------------------------------------
+#{formatted_commands.join("\n")}
+    EOS
   end
 
   match /^artme (?<search>.+)/ do
