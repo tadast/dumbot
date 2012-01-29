@@ -7,7 +7,7 @@ require_relative 'bot_config.rb'
 require_relative 'lib/tasker.rb'
 
 @config = BotConfig.new
-scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => false)
+scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => false, :ignore_self => true)
 
 def yuno
   @yuno ||= Yuno.new(:yuno)
@@ -19,9 +19,9 @@ scamp.behaviour do
     say "http://i3.kym-cdn.com/entries/icons/original/000/007/447/hello-yes-this-is-dog.png"
   end
 
-  # match /help/ do
-  #   puts "#{scamp.command_list.map(&:to_s).join("\n-")}"
-  # end
+  match /^(dumbot )?help/i do
+    puts "#{scamp.command_list.map(&:to_s).join("\n-")}"
+  end
 
   match /^artme (?<search>.+)/ do
     url = "http://ajax.googleapis.com/ajax/services/search/images?rsz=large&start=0&v=1.0&q=#{CGI.escape(search)}"
