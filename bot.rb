@@ -7,7 +7,7 @@ require_relative 'bot_config.rb'
 require_relative 'lib/tasker.rb'
 
 @config = BotConfig.new
-scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => false, :ignore_self => true)
+scamp = Scamp.new(api_key:  @config['api_key'], subdomain:  @config['subdomain'], verbose:  false, ignore_self:  true)
 
 def yuno
   @yuno ||= Yuno.new(:yuno)
