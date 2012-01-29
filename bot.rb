@@ -20,7 +20,7 @@ scamp.behaviour do
   end
 
   match /^(dumbot )?help/i do
-    puts "#{scamp.command_list.map(&:to_s).join("\n-")}"
+    say "#{scamp.command_list.map(&:to_s).join("\n-")}"
   end
 
   match /^artme (?<search>.+)/ do
@@ -88,23 +88,6 @@ scamp.behaviour do
     if action
       link = yuno.generate "Y U NO", action
       say link
-    end
-  end
-
-  match /^last (?<someone>.+)'s tweet/ do
-    url = "http://api.twitter.com/1/users/show.json?screen_name=#{CGI.escape(someone)}"
-    http = EventMachine::HttpRequest.new(url).get
-    http.callback do
-      if http.response_header.status == 200
-        results = Yajl::Parser.parse(http.response)
-        if results['status']['id_str'].size > 0
-          say "http://twitter.com/#!/#{CGI.escape(someone)}/status/#{results['status']['id_str']}"
-        else
-          say "Didn't find correct info in the twitter response"
-        end
-      else
-        say "Couldn't get the tweet"
-      end
     end
   end
 
