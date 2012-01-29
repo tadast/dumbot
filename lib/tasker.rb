@@ -22,7 +22,7 @@ class Tasker
 
   def all_tasks
     if @tasks.empty?
-      "Nothing urgent to do. Back to regular scheduled card work."
+      "Nothing urgent."
     else
       @tasks.map do |task|
         "#{task} (#{task.owner || 'unclaimed'})"
@@ -36,7 +36,7 @@ class Tasker
       if @tasks.size > 0
         "Nothing assigned to you. Grab one of the #{@tasks.count} other tasks."
       else
-        "Nothing urgent to do. Back to regular scheduled card work."
+        "Nothing urgent."
       end
     else
       tasks.map(&:to_s).join("\n")
@@ -95,7 +95,6 @@ class Tasker
     "Commands\n"
     ["all tasks",
      "add task <description>",
-     "show my tasks",
      "<id> is mine",
      "<id> is done",
      "<id> is too hard",

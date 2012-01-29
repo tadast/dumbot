@@ -4,7 +4,7 @@ require 'net/http'
 require 'json'
 require 'cgi'
 require_relative 'bot_config.rb'
-require_relative 'tasker.rb'
+require_relative 'lib/tasker.rb'
 
 @config = BotConfig.new
 scamp = Scamp.new(:api_key => @config['api_key'], :subdomain => @config['subdomain'], :verbose => false)
