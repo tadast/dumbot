@@ -15,6 +15,10 @@ end
 
 scamp.behaviour do
 
+  match /^(dumbot|dog)\??$/i do
+    say "http://i3.kym-cdn.com/entries/icons/original/000/007/447/hello-yes-this-is-dog.png"
+  end
+
   # match /help/ do
   #   puts "#{scamp.command_list.map(&:to_s).join("\n-")}"
   # end
