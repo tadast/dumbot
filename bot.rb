@@ -153,7 +153,11 @@ scamp.behaviour do
   end
 
   match "facepalm" do
-    say "http://knowyourmeme.com/system/icons/554/original/facepalm.jpg"
+    images = ["http://i2.kym-cdn.com/entries/icons/original/000/000/554/facepalm.jpg",
+      "http://i3.kym-cdn.com/photos/images/newsfeed/000/212/717/1323056694381.jpg",
+      "http://i0.kym-cdn.com/photos/images/newsfeed/000/180/820/1317484924001.jpg",
+      "http://i1.kym-cdn.com/photos/images/newsfeed/000/164/581/obama_facepalm.jpg"]
+    say images.sample
   end
 
   match /^[f]+[u]+$/ do
@@ -163,7 +167,7 @@ scamp.behaviour do
       "http://s3.amazonaws.com/ragefaces/4f767454e72cef87d679c12823892356.png",
       "http://s3.amazonaws.com/ragefaces/615fdaf29bbe5c29e6ac88e94328097d.png"
     ]
-    say links.shuffle.first
+    say links.sample
   end
 
   match /(.)*whew(.)*/ do
@@ -186,7 +190,7 @@ scamp.behaviour do
       "http://4.bp.blogspot.com/_D_Z-D2tzi14/TBpoVLLDgCI/AAAAAAAADGc/iqux8px_V-s/s400/responsibility12(alternate)2.png",
       "http://2.bp.blogspot.com/_D_Z-D2tzi14/TBpqGvZ7jVI/AAAAAAAADGk/hDTNttRLLks/s400/responsibility8.png"
     ]
-    say images.shuffle.first
+    say images.sample
   end
 
   match /ship it!/ do
@@ -194,7 +198,7 @@ scamp.behaviour do
       "http://img.skitch.com/20100714-d6q52xajfh4cimxr3888yb77ru.jpg",
       "https://img.skitch.com/20111026-r2wsngtu4jftwxmsytdke6arwd.png"
     ]
-    say squirrels.shuffle.first
+    say squirrels.sample
   end
 
   match /(.)*like a boss(.)*/ do
@@ -205,7 +209,7 @@ scamp.behaviour do
       "http://assets.head-fi.org/b/b3/b3ba6b88_funny-facebook-fails-like-a-boss3.jpg",
       "http://img.anongallery.org/img/6/0/like-a-boss.jpg",
       ]
-    say images.shuffle.first
+    say images.sample
   end
 
   match /humble/ do
@@ -218,7 +222,7 @@ scamp.behaviour do
 
   match /friday(.)?$/i do
     images = ["http://i.imgur.com/1sZ9T.jpg", "http://s3.amazonaws.com/ragefaces/3aabae7fcc91e1646ce10ac03a4cc93f.png"]
-    say images.shuffle.first
+    say images.sample
   end
 
   match /^add task (?<task>.+)$/ do
