@@ -53,7 +53,7 @@ class Tasker
 
   def import(lines)
     lines.strip.split("\n").each do |line|
-      left = line.sub(/\d\./, '').strip
+      left = line.sub(/\d{1,3}\./, '').strip
       owner = left.reverse.split('(').first.reverse[0..-2]
       push(left.sub("(#{owner})".strip, ''), owner)
     end
