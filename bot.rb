@@ -46,6 +46,20 @@ scamp.behaviour do
     end
   end
 
+  match /^WAT\??/ do
+    url = "http://watme.herokuapp.com/random"
+    http = EventMachine::HttpRequest.new(url).get
+    http.errback { say "IN YOUR BAT" }
+    http.callback do
+      if http.response_header.status == 200
+        results = Yajl::Parser.parse(http.response)
+        say results['wat']
+      else
+        say "WAT API is down. WAT?"
+      end
+    end
+  end
+
   # > geminfo rails
   # > geminfo rails more
   match /^geminfo (?<gemname>\w+) ?(?<more>\w+)?/ do
