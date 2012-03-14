@@ -1,3 +1,4 @@
+#- encoding: UTF-8 -#
 require 'scamp'
 require 'yuno'
 require 'net/http'
@@ -62,7 +63,7 @@ scamp.behaviour do
 
   # > geminfo rails
   # > geminfo rails more
-  match /^geminfo (?<gemname>\w+) ?(?<more>\w+)?/ do
+  match /^geminfo (?<gemname>[\w-]+) ?(?<more>\w+)?/ do
     versions_url = "http://rubygems.org/api/v1/versions/#{CGI.escape(gemname)}.json"
     versions_http = EventMachine::HttpRequest.new(versions_url).get
     versions_http.errback { say "Oh crap, some error. Try http://rubygems.org/search?query=#{CGI.escape(gemname)}" }
@@ -126,7 +127,7 @@ scamp.behaviour do
   end
 
   match /^(north korea|cccp|soviet russia)$/i do
-    say "censorship stick!\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|"
+    say "censorship stick!\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭"
   end
 
   match /^dumbot, pick one(:)?(?<options>.+)$/i do
