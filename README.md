@@ -19,6 +19,7 @@ Essentials
 * geminfo __gemname__ - useful info from rubygems
 * geminfo __gemname__ more - even more useful info from rubygems
 * artme __keyword__ - get a random picture from google search (taken from Scamp examples)
+* meme __keywords__ - get a random rage (F7U12) meme picture
 * weather - displays weather in London
 * Y U NO __do_something__ - generates and pastes Y U NO meme poster
 * north korea or CCCP - adds a 'censorship stick' to scroll up whatever you had on the screen

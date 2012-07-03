@@ -47,6 +47,22 @@ scamp.behaviour do
     end
   end
 
+  match /^meme (?<search>.+)/ do
+    url = "http://alltheragefaces.com/search/#{CGI.escape(search)}?sort=new,popular"
+    http = EventMachine::HttpRequest.new(url).get
+    http.errback { say "Couldn't get #{url}: #{http.response_status.inspect}" }
+    http.callback do
+      if http.response_header.status == 200
+        doc = Nokogiri::HTML(http.response)
+        paths = doc.xpath("//div[@class='info-item download']/div[@class='info-content']/a[position() = 1]").map{|x| x.attributes["href"].value }
+        say "http://alltheragefaces.com/#{paths.sample}" unless paths.empty?
+      else
+        # logger.warn "Couldn't get #{url}"
+        say "Couldn't get #{url}"
+      end
+    end
+  end
+
   match /^WAT\??/ do
     url = "http://watme.herokuapp.com/random"
     http = EventMachine::HttpRequest.new(url).get
