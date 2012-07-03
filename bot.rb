@@ -157,8 +157,12 @@ scamp.behaviour do
   end
 
   match "tea break?" do
-    say "http://ragefac.es/faces/fb903729364ffe73f7f693d529d58b14.png"
+    say "http://alltheragefaces.com/img/faces/png/neutral-indeed.png"
     say "I don't see why not, gentlemen"
+  end
+
+  match /nein nein nein/ do
+    say "http://i.imgur.com/Bm8UF.gif"
   end
 
   match "not bad" do
