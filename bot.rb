@@ -181,6 +181,11 @@ scamp.behaviour do
     say "http://i.imgur.com/Bm8UF.gif"
   end
 
+  match /I(?=.*want|.*wanna)(?=.*die)|(?=.*killing|.*kill)(?=.*me)/i do
+    say "http://www.engrish.com//wp-content/uploads/2008/08/dying-prohibited.jpg"
+    say "I don't think so."
+  end
+
   match "not bad" do
     say "http://ragefac.es/faces/f4c6f874966279c091de3056ac0f1a33.png"
   end
