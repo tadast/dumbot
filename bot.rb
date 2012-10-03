@@ -217,7 +217,7 @@ scamp.behaviour do
     say "who said children?"
   end
 
-  match /ship[ing]* it!?/i do
+  match /ship[ping]* it!?/i do
     squirrels = [
       "http://img.skitch.com/20100714-d6q52xajfh4cimxr3888yb77ru.jpg",
       "https://img.skitch.com/20111026-r2wsngtu4jftwxmsytdke6arwd.png"
