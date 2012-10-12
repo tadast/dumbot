@@ -249,6 +249,22 @@ scamp.behaviour do
     say images.sample
   end
 
+  match /map me (?<query>.+)/i do
+    query = CGI.escape(query)
+    map_url = "http://maps.google.com/maps/api/staticmap?markers=" +
+              query +
+              "&size=400x400&maptype=hybrid" +
+              "&sensor=false" +
+              "&format=png"
+    url = "http://maps.google.com/maps?q=" +
+            query +
+            "&hl=en&sll=37.0625,-95.677068&sspn=73.579623,100.371094&vpsrc=0&hnear=" +
+            query +
+            "&t=m&z=11"
+    say map_url
+    say url
+  end
+
   match /^add task (?<task>.+)$/ do
     Tasker.instance.push(task)
     say Tasker.instance.all_tasks
