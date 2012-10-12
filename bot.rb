@@ -154,13 +154,13 @@ scamp.behaviour do
 
   # matches Jenkins notifier success message https://github.com/thickpaddy/jenkins_campfire_plugin
   match /(.)*SUCCESS(.)*/ do
-    # say "http://ragefac.es/faces/7c5b930e2a57df597acf02f4bea0e252.png"
+    say "http://ragefac.es/faces/7c5b930e2a57df597acf02f4bea0e252.png"
     play "yeah"
   end
 
   # matches Jenkins notifier failure message https://github.com/thickpaddy/jenkins_campfire_plugin
   match /(.)*FAILURE(.)*/ do
-    # say "http://ragefac.es/faces/b6e647d23bf1c62c0cd8f7fe98a42823.png"
+    say "http://ragefac.es/faces/b6e647d23bf1c62c0cd8f7fe98a42823.png"
     play "drama"
   end
 
