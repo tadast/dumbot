@@ -1,22 +1,24 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.2.6)
-    em-http-request (1.0.0)
+    addressable (2.3.2)
+    cookiejar (0.3.0)
+    em-http-request (1.0.3)
       addressable (>= 2.2.3)
+      cookiejar
       em-socksify
-      eventmachine (>= 1.0.0.beta.3)
-      http_parser.rb (>= 0.5.2)
-    em-socksify (0.1.0)
-      eventmachine
-    eventmachine (1.0.0.beta.4)
-    http_parser.rb (0.5.2)
+      eventmachine (>= 1.0.0.beta.4)
+      http_parser.rb (>= 0.5.3)
+    em-socksify (0.2.1)
+      eventmachine (>= 1.0.0.beta.4)
+    eventmachine (1.0.0)
+    http_parser.rb (0.5.3)
     nokogiri (1.5.0)
-    scamp (0.1.2)
-      em-http-request (~> 1.0.0.beta.4)
-      eventmachine (~> 1.0.0.beta.4)
-      yajl-ruby (~> 0.8.3)
-    yajl-ruby (0.8.3)
+    scamp (1.1.0)
+      em-http-request (~> 1.0)
+      eventmachine (~> 1.0.0.rc.4)
+      yajl-ruby (~> 1.1)
+    yajl-ruby (1.1.0)
     yuno (0.0.1)
 
 PLATFORMS
@@ -24,5 +26,5 @@ PLATFORMS
 
 DEPENDENCIES
   nokogiri
-  scamp
+  scamp (~> 1.1.0)
   yuno
