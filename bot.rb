@@ -284,7 +284,7 @@ scamp.behaviour do
 
   match /^add task (?<task>.+)$/ do
     Tasker.instance.push(task)
-    say Tasker.instance.all_tasks
+    say "Gotcha. Added: #{task}"
   end
 
   match /^(all )?tasks?$/ do
