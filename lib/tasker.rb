@@ -9,11 +9,32 @@ class Tasker
   end
 
   def initialize
-    @tasks = []
+    @tasks = read_tasks
+  end
+
+  def task_file
+    File.expand_path("../../tasks.yaml", __FILE__)
+  end
+
+  def write_tasks
+    File.write(task_file, YAML.dump(@tasks))
+  end
+
+  def read_tasks
+    YAML.load(File.read(task_file))
+  rescue => e
+    puts "Failed to read tasks.json: #{e.message}"
+    return []
   end
 
   def push(text, user = nil)
     @tasks << Task.new(next_id, text, user)
+    write_tasks
+  end
+
+  def delete(task)
+    @tasks.delete(task)
+    write_tasks
   end
 
   def next_id
@@ -86,7 +107,7 @@ class Tasker
 
   def done(id, user)
     task(id) do |task|
-      @tasks.delete(task)
+      delete(task)
       "Well played #{user}, you completed #{task}"
     end
   end
