@@ -297,7 +297,7 @@ scamp.behaviour do
 
   match /^(?<id>\d+) is mine$/ do
     Tasker.instance.claim(id, user)
-    say Tasker.instance.all_tasks
+    say Tasker.instance.my_tasks(user)
   end
 
   match /^(?<id>\d+) is done$/ do
