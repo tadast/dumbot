@@ -238,7 +238,8 @@ scamp.behaviour do
       "http://dl.dropbox.com/u/602885/github/soldier-squirrel.jpg",
       "http://dl.dropbox.com/u/602885/github/squirrelmobster.jpeg",
       "http://f.cl.ly/items/0S1M2d1h0I132S082A05/flying-squirrel.gif",
-      "http://img.photobucket.com/albums/v647/cinnoberfrog/Pirate_squirrel_1.jpg"
+      "http://img.photobucket.com/albums/v647/cinnoberfrog/Pirate_squirrel_1.jpg",
+      "https://dl.dropbox.com/s/3bzh01u51rw4684/saints-paul-squirrel.jpg"
     ]
     say squirrels.sample
   end
