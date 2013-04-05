@@ -302,8 +302,13 @@ scamp.behaviour do
     say Tasker.instance.my_tasks(user)
   end
 
-  match /^(?<id>\d+) is done$/ do
+  match /^(?<id>\d+) is (done|actioned)$/ do
     say Tasker.instance.done(id, user)
+  end
+
+  match /^(?<id>\d+) is (crap|bs|bullshit|shit)$/i do
+    say Tasker.instance.delete(id)
+    say "Roger that, captain!"
   end
 
   match /^(?<id>\d+) is too hard$/ do
