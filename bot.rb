@@ -284,7 +284,7 @@ scamp.behaviour do
   end
 
   match /^(?<id>\d+) is (crap|bs|bullshit|shit)$/i do
-    say Tasker.instance.delete(id)
+    say Tasker.instance.remove(id)
     say "Roger that, captain!"
   end
 

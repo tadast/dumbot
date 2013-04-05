@@ -80,6 +80,12 @@ class Tasker
     end
   end
 
+  def remove(id)
+    task(id) do |task|
+      delete(task)
+    end
+  end
+
   def claim(id, user)
     task(id) do |task|
       task.owner = user
