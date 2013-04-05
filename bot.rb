@@ -146,7 +146,7 @@ scamp.behaviour do
     say "censorship stick!\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭"
   end
 
-  match /^dumbot, pick one(:)?(?<options>.+)$/i do
+  match /^dumbot,? pick one:?(?<options>.+)$/i do
     say options.to_s.split.sample
   end
 
@@ -168,7 +168,7 @@ scamp.behaviour do
     say "http://i3.kym-cdn.com/entries/icons/original/000/007/447/hello-yes-this-is-dog.png"
   end
 
-  match "LOL" do
+  match /^LOL$/i do
     say "http://ragefac.es/faces/6bba77c8b9326aef8230886e16d66b0e.png"
   end
 
@@ -181,12 +181,7 @@ scamp.behaviour do
     say "http://i.imgur.com/Bm8UF.gif"
   end
 
-  match /I(?=.*want|.*wanna)(?=.*die)|(?=.*killing|.*kill)(?=.*me)/i do
-    say "http://www.engrish.com//wp-content/uploads/2008/08/dying-prohibited.jpg"
-    say "I don't think so."
-  end
-
-  match "not bad" do
+  match /^not bad$/i do
     say "http://ragefac.es/faces/f4c6f874966279c091de3056ac0f1a33.png"
   end
 
@@ -206,15 +201,6 @@ scamp.behaviour do
       "http://s3.amazonaws.com/ragefaces/615fdaf29bbe5c29e6ac88e94328097d.png"
     ]
     say links.sample
-  end
-
-  match /(.)*whew(.)*/ do
-    say "http://s3.amazonaws.com/ragefaces/e1f11b7e02abf942f13564a72220ff34.png"
-  end
-
-  match /(.)*kids(.)*/ do
-    say "http://s3.amazonaws.com/ragefaces/a0bb256993d98fb2d037a0eac5a6b59c.png"
-    say "who said children?"
   end
 
   match /ship[ping]* it!?/i do
@@ -255,17 +241,8 @@ scamp.behaviour do
     say images.sample
   end
 
-  match /humble/ do
-    say "http://s3.amazonaws.com/ragefaces/b50a224ee8948d6fd1987d3172f01017.png"
-  end
-
-  match /Z?OMG/ do
+  match /Z?OMG$/ do
     say "http://s3.amazonaws.com/ragefaces/b34804725fcfa64106b786f37c2f32fe.png"
-  end
-
-  match /friday(.)?$/i do
-    images = ["http://i.imgur.com/1sZ9T.jpg", "http://s3.amazonaws.com/ragefaces/3aabae7fcc91e1646ce10ac03a4cc93f.png"]
-    say images.sample
   end
 
   match /map me (?<query>.+)/i do
