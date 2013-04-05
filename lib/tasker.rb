@@ -28,8 +28,10 @@ class Tasker
   end
 
   def push(text, user = nil)
-    @tasks << Task.new(next_id, text, user)
+    id = next_id
+    @tasks << Task.new(id, text, user)
     write_tasks
+    id
   end
 
   def delete(task)
@@ -103,7 +105,7 @@ class Tasker
   def give_up(id)
     task(id) do |task|
       task.owner = nil
-      "LOL, man-up dude!"
+      "Shit happens :|"
     end
   end
 
