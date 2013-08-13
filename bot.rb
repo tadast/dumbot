@@ -283,7 +283,7 @@ scamp.behaviour do
   end
 
   match /^add task (?<task>.+)$/ do
-    Tasker.instance.push(task)
+    Tasker.instance.push(task, user)
     say "Gotcha. Added: #{task}"
   end
 

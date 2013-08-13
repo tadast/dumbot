@@ -2,9 +2,9 @@ require 'singleton'
 
 class Tasker
   include Singleton
-  Task = Struct.new(:id, :description, :owner) do
+  Task = Struct.new(:id, :description, :owner, :creator) do
     def to_s
-      "#{id}. #{description}"
+      "#{id}. #{description} [#{creator}]"
     end
   end
 
@@ -12,8 +12,8 @@ class Tasker
     @tasks = []
   end
 
-  def push(text, user = nil)
-    @tasks << Task.new(next_id, text, user)
+  def push(text, creator, user = nil)
+    @tasks << Task.new(next_id, text, user, creator)
   end
 
   def next_id
