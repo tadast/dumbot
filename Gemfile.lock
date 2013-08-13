@@ -13,6 +13,7 @@ GEM
       eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.0.0)
     http_parser.rb (0.5.3)
+    minitest (5.0.6)
     nokogiri (1.5.0)
     scamp (1.1.0)
       em-http-request (~> 1.0)
@@ -25,6 +26,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  minitest
   nokogiri
   scamp (~> 1.1.0)
   yuno
