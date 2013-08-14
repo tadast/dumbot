@@ -1,10 +1,11 @@
 require 'singleton'
+require 'yaml'
 
 class Tasker
   include Singleton
-  Task = Struct.new(:id, :description, :owner) do
+  Task = Struct.new(:id, :description, :owner, :creator) do
     def to_s
-      "#{id}. #{description}"
+      "#{id}. #{description} [#{creator}]"
     end
   end
 
@@ -21,15 +22,15 @@ class Tasker
   end
 
   def read_tasks
-    YAML.load(File.read(task_file))
+    YAML.load(File.read(task_file)) || []
   rescue => e
     puts "Failed to read tasks.json: #{e.message}"
     return []
   end
 
-  def push(text, user = nil)
+  def push(text, creator, asignee = nil)
     id = next_id
-    @tasks << Task.new(id, text, user)
+    @tasks << Task.new(id, text, asignee, creator)
     write_tasks
     id
   end
