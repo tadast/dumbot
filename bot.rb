@@ -261,6 +261,13 @@ scamp.behaviour do
     say url
   end
 
+  match /^advice me$|^zen$/i do
+    url = "https://api.github.com/zen"
+    http = EventMachine::HttpRequest.new(url).get
+    http.errback { say "Couldn't get #{url}: #{http.response_status.inspect}" }
+    http.callback { say http.response }
+  end
+
   match /^add task (?<task>.+)$/ do
     task_id = Tasker.instance.push(task)
     say "Added: #{task_id}. #{task}"
