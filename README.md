@@ -1,7 +1,7 @@
-Camp with meme!
+Meet Dumbot
 ========
 
-Campfire bot for fun and entertainment.
+Dumbot is a Campfire bot for fun, entertainment, and quick task management.
 Implemented using Scamp framework (https://github.com/wjessop/Scamp)
 
 How to
