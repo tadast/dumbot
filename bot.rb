@@ -269,7 +269,7 @@ scamp.behaviour do
   end
 
   match /^add task (?<task>.+)$/ do
-    task_id = Tasker.instance.push(task)
+    task_id = Tasker.instance.push(task, user)
     say "Added: #{task_id}. #{task}"
   end
 
