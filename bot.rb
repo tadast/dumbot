@@ -205,6 +205,7 @@ scamp.behaviour do
 
   match /ship[ping]* it!?/i do
     squirrels = [
+      "http://i.imgur.com/liN8FYP.gif",
       "http://images1.fanpop.com/images/image_uploads/Fat-Squirrel-squirrels-855818_500_542.jpg",
       "https://img.skitch.com/20111026-r2wsngtu4jftwxmsytdke6arwd.png",
       "http://shipitsquirrel.github.com/images/squirrel.png",
