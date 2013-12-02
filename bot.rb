@@ -290,7 +290,7 @@ scamp.behaviour do
     say Tasker.instance.done(id, user)
   end
 
-  match /^(?<id>\d+) is (crap|bs|bullshit|shit)$/i do
+  match /^(?<id>\d+) is (crap|bs|bullshit|shit)/i do
     say Tasker.instance.remove(id)
     say "Roger that, captain!"
   end
@@ -299,7 +299,7 @@ scamp.behaviour do
     say Tasker.instance.give_up(id)
   end
 
-  match /^(?<username>.+) do (?<id>\d+)$/ do
+  match /^(?<username>.+) do (?<id>\d+)/ do
     say Tasker.instance.assign(id, username)
   end
 
