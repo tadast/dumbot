@@ -21,6 +21,7 @@ Essentials
 * meme __&lt;meme-name&gt;__ __&lt;top text&gt;__/__&lt;bottom text&gt;__ - generate a meme with top and bottom captions
 * Y U NO __do_something__ - generates and pastes Y U NO meme poster
 * north korea or CCCP - adds a 'censorship stick' to scroll up whatever you had on the screen
+* random: <one> <two> <three> - picks one of the words listed after the colon
 
 Tasks
 -----

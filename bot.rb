@@ -145,8 +145,8 @@ scamp.behaviour do
     say "censorship stick!\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭\n☭"
   end
 
-  match /^dumbot,? pick one:?(?<options>.+)$/i do
-    say options.to_s.split.sample
+  match /^(random|dumbot,? pick one):(?<options>.+)$/i do
+    paste options.to_s.split.sample
   end
 
   #unuseful noisy matchers
