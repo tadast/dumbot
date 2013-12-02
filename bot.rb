@@ -14,6 +14,10 @@ def yuno
   @yuno ||= Yuno.new(:yuno)
 end
 
+def meme_usage
+  "Usage: `meme <meme-name> <top text>/<bottom text>`. See http://maas.rohits.me for available ids."
+end
+
 scamp.behaviour do
 
   match /^(dumbot )?help/i do
@@ -47,18 +51,26 @@ scamp.behaviour do
     end
   end
 
-  match /^meme (?<search>.+)/ do
-    url = "http://alltheragefaces.com/search/#{CGI.escape(search)}?sort=new,popular"
+  match /^meme help|usage/ do
+    say meme_usage
+  end
+
+  match /^meme (?<meme_id>[\w-]+) (?<query>.+)$/ do
+    url = "http://maas.rohits.me/#{meme_id}/#{query.gsub(' ', '%20')}"
     http = EventMachine::HttpRequest.new(url).get
     http.errback { say "Couldn't get #{url}: #{http.response_status.inspect}" }
     http.callback do
       if http.response_header.status == 200
         doc = Nokogiri::HTML(http.response)
-        paths = doc.xpath("//div[@class='info-item download']/div[@class='info-content']/a[position() = 1]").map{|x| x.attributes["href"].value }
-        say "http://alltheragefaces.com/#{paths.sample}" unless paths.empty?
+        img = doc.xpath("//img").first
+        if img
+          say img.attributes["src"].value
+        else
+          say "No image found in #{url}"
+        end
       else
         # logger.warn "Couldn't get #{url}"
-        say "Couldn't get #{url}"
+        say "Couldn't get the meme #{url} (#{http.response_header.status}). #{meme_usage}"
       end
     end
   end
@@ -316,7 +328,6 @@ scamp.behaviour do
   match /^random task( please)?$/i do
     say Tasker.instance.random
   end
-
 end
 
 # Connect and join some rooms
