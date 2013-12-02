@@ -137,19 +137,6 @@ scamp.behaviour do
     end
   end
 
-  # TODO make the location easily configurable or pass it as a parameter
-  match /^weather!?$/ do
-    begin
-      response = Net::HTTP.get(URI.parse("http://weather.yahooapis.com/forecastjson?w=44418&u=c")) #London
-      json = JSON.parse(response)
-      say "Now #{json["condition"]["temperature"]} C, #{json["condition"]["text"]}. Wind #{json["wind"]["speed"]}km/h #{json["wind"]["direction"]}"
-      tomorrow = json["forecast"].find{|x| x["day"] = "Tomorrow"}
-      say "Tomorrow #{tomorrow["condition"]}, temperature #{tomorrow["low_temperature"]} - #{tomorrow["high_temperature"]} C"
-    rescue
-      say "no weather :("
-    end
-  end
-
   match /dumbot ip/ do
     say "#{`wget -qO- icanhazip.com`}"
   end
